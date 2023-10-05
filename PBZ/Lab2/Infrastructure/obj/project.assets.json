@@ -902,6 +902,7 @@
     "net7.0": [
       "Application >= 1.0.0",
       "Domain >= 1.0.0",
+      "Microsoft.EntityFrameworkCore >= 7.0.11",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 7.0.11"
     ]
   },
@@ -957,6 +958,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[7.0.11, )"
+          },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[7.0.11, )"
