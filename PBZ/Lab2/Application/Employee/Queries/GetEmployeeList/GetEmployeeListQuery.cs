@@ -1,6 +1,8 @@
-﻿namespace Application.Employee.Queries.GetEmployeeList;
+﻿using MediatR;
 
-public class GetEmployeeListQuery
+namespace Application.Employee.Queries.GetEmployeeList;
+
+public class GetEmployeeListQuery : IRequest<EmployeeListVm>
 {
-    
+     public int SkipPosition { get; set; }
 }

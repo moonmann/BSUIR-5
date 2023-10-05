@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\WebAPI\\WebAPI.csproj",
+      "projectUniqueName": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
-      "projectPath": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\WebAPI\\WebAPI.csproj",
+      "projectPath": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\WebAPI\\WebAPI.csproj",
       "packagesPath": "C:\\Users\\kochu\\.nuget\\packages\\",
-      "outputPath": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\WebAPI\\obj\\",
+      "outputPath": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\WebAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\ProgramSDK\\NuGetPackages"

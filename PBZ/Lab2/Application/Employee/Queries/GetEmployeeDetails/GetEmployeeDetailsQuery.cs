@@ -1,6 +1,8 @@
-﻿namespace Application.Employee.Queries.GetEmployeeDetails;
+﻿using MediatR;
 
-public class GetEmployeeDetailsQuery
+namespace Application.Employee.Queries.GetEmployeeDetails;
+
+public class GetEmployeeDetailsQuery : IRequest<EmployeeDetailsVm>
 {
-    
+    public int Id { get; set; }
 }

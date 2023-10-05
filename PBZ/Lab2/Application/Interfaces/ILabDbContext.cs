@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Interfaces;
 
-public interface IEmployeesDbContext
+public interface ILabDbContext
 {
     DbSet<Employees> Employees { get; set; }
-    Task<int> SaveChengesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

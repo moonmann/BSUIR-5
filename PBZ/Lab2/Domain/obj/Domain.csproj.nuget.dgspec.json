@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\Domain\\Domain.csproj": {}
+    "D:\\University\\BSUIR-5\\PBZ\\Lab2\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\Domain\\Domain.csproj": {
+    "D:\\University\\BSUIR-5\\PBZ\\Lab2\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\Domain\\Domain.csproj",
+        "projectPath": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\kochu\\.nuget\\packages\\",
-        "outputPath": "G:\\Мой диск\\BSUIR-3 (1)\\ПБЗ\\Lab2\\Domain\\obj\\",
+        "outputPath": "D:\\University\\BSUIR-5\\PBZ\\Lab2\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\ProgramSDK\\NuGetPackages"
