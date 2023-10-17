@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="styles/index.css" rel="stylesheet">
+</head>
+<body>
+<script>
+    function iframeDidLoad() {
+        alert('Done');
+    }
+
+    function newSite(operation_type) {
+        var sites = ['../../create_student',
+                    '../../delete_student',
+                    '../../update_student',
+                    '../../get_student_list']
+
+        document.getElementById('iframe_urls').src = sites[operation_type];
+
+    }
+</script>
+    <header class="header">
+        <h1>Students</h1>
+        <ul class="header_ul">
+            <li>
+                <a href="#" onclick="newSite(0)">Добавить студента</a>
+            </li>
+            <li>
+                <a href="#" onclick="newSite(1)">Удалить студента</a>
+            </li>
+            <li>
+                <a href="#" onclick="newSite(2)">Обновить информацию о студенте</a>
+            </li>
+            <li>
+                <a href="#" onclick="newSite(3)">Посмотреть всех студентов</a>
+            </li>
+        </ul>
+    </header>
+<iframe id="iframe_urls"  src="../../create_table">
+<!--Внедрение формы полученной с сервера-->
+</iframe>
+</body>
+</html>
