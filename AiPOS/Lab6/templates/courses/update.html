@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/courses">Назад</a>
+<h2>Форма ввода</h2>
+<form action="/courses/update" method="post">
+    <p>
+        <label>Номер курса:</label>
+        <input name="course_id" type="number" />
+    </p>
+    <p>
+        <label>Новое название:</label>
+        <input name="name" />
+    </p>
+    <p>
+        <label>Год обучения:</label>
+        <input name="year" type="number" />
+    </p>
+    <input type="submit" value="Send" />
+</form>
+<div>
+    <h2>Список имеющихся курсов</h2>
+<iframe src="../../get_courses" frameborder="0" style="height: 100%"></iframe>
+
+</div>
+</body>
+</html>

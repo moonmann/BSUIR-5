@@ -5,15 +5,18 @@
     <title>Lab6 - Курсы</title>
 </head>
 <body>
+<a href="/">Назад</a>
+<h1>Курсы</h1>
 <span>Данный раздел представлен для работы с курсами.</span>
+<ul>
+    <li><a href="/courses/create">Создать</a></li>
+    <li><a href="/courses/delete">Удалить</a></li>
+    <li><a href="/courses/update">Изменить</a></li>
+</ul>
+<div>
+    <h2>Список имеющихся курсов</h2>
+<iframe src="../../get_courses" frameborder="0" style="height: 100%"></iframe>
 
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Stage</th>
-        </tr>
-        {{table_data}}}
-    </table>
+</div>
 </body>
 </html>
