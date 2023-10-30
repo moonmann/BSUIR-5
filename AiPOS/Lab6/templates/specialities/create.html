@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/specialities">Назад</a>
+    <h2>Форма ввода</h2>
+    <form action="/specialities/create" method="post">
+        <p>
+            Название специальности:<br>
+            <label>
+                <input name="name" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input name="specialityNumber" type="number" />
+            </label>
+        </p>
+        <p>
+            Номер курса:<br>
+            <label>
+                <input name="course_id" type="number" />
+            </label>
+        </p>
+        <input type="submit" value="Send" />
+    </form>
+<div>
+    <h2>Список имеющихся курсов</h2>
+<iframe src="../../get_courses" frameborder="0" style="height: 100%"></iframe>
+
+</div>
+</body>
+</html>

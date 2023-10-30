@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/students">Назад</a>
+<h2>Форма ввода</h2>
+<form action="/students/update" method="post">
+    <p>
+        <label>Номер студента:</label>
+        <input name="number" type="number"/>
+    </p>
+    <p>
+        <label>Новое имя:</label>
+        <input name="f_name"/>
+    </p>
+    <p>
+        <label>Новая фамилия:</label>
+        <input name="l_name" />
+    </p>
+    <p>
+        <label>Средний балл:</label>
+        <input name="gpa" type="number" step="0.1"/>
+    </p>
+    <p>
+        <label>Номер группы(id):</label>
+        <input name="group_id" type="number" />
+    </p>
+    <input type="submit" value="Send" />
+</form>
+<div>
+    <h2>Список имеющихся групп</h2>
+<iframe src="../../get_groups" frameborder="0" style="height: 100%"></iframe>
+</div>
+<div>
+    <h2>Список имеющихся студентов</h2>
+<iframe src="../../get_students" frameborder="0" style="height: 100%"></iframe>
+
+</div>
+</body>
+</html>

@@ -10,7 +10,6 @@ class Student(Base):
     firstName = Column(String)
     lastName = Column(String)
 
-    dateOfBirth = Column(Date)
     studentNumber = Column(Integer,)
     gpa = Column(Float)
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/groups">Назад</a>
+    <h2>Форма ввода</h2>
+    <form action="/groups/create" method="post">
+        <p>
+            Номер группы:<br>
+            <label>
+                <input name="number" type="number" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input name="speciality_id" type="number" />
+            </label>
+        </p>
+        <input type="submit" value="Send" />
+    </form>
+<div>
+    <h2>Список имеющихся специальностей</h2>
+<iframe src="../../get_specialities" frameborder="0" style="height: 100%"></iframe>
+</div>
+</body>
+</html>

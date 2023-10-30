@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/">Назад</a>
+    <h2>Форма ввода</h2>
+    <form action="/students/create" method="post">
+        <p>
+            Имя:<br>
+                <input name="f_name" />
+        </p>
+        <p>
+            Фамилия:<br>
+                <input name="l_name" />
+        </p>
+        <p>
+            Номер студента:<br>
+                <input name="number" type="number" />
+        </p>
+        <p>
+            Средний балл:<br>
+                <input name="gpa" type="number" step="0.1" />
+        </p>
+        <p>
+            Номер группы:<br>
+                <input name="group_number" type="number" />
+        </p>
+        <input type="submit" value="Send" />
+    </form>
+<div>
+    <h2>Список имеющихся групп</h2>
+<iframe src="../../get_groups" frameborder="0" style="height: 100%"></iframe>
+</body>
+</html>
