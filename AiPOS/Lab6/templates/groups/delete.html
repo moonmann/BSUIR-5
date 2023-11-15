@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/groups">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        <label>Id группы</label>
+        <input id="groups_id" type="number" />
+    </p>
+    <button id="deleteBtn">Удалить</button>
+</form>
+<script>
+        async function deleteGroup(Id) {
+
+            const response = await fetch("/groups/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteBtn").addEventListener("click", async () => {
+            const id = document.getElementById("groups_id").value;
+            await deleteGroup(id);
+        });
+        </script>
+
+</body>
+</html>

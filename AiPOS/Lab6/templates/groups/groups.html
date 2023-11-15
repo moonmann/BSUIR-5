@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/">Назад</a>
+<h1>Группы</h1>
+<span>Данный раздел представлен для работы с группами.</span>
+<ul>
+    <li><a href="/groups/create">Создать</a></li>
+    <li><a href="/groups/delete">Удалить</a></li>
+    <li><a href="/groups/update">Изменить</a></li>
+</ul>
+<div>
+    <h2>Список имеющихся групп</h2>
+    <table id="tableCourse">
+        <thead><th>Id</th> <th>Number</th><th>Speciality id</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+<script>
+        async function getGroups() {
+            const response = await fetch("/get_groups", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const groups = await response.json();
+                const rows = document.querySelector("tbody");
+                groups.forEach(group => rows.append(row(group)));
+            }
+        }
+        function row(group) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", group.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(group.id);
+            tr.append(idTd);
+
+            const numberTd = document.createElement("td");
+            numberTd.append(group.groupNumber);
+            tr.append(numberTd);
+
+            const speciality_idTd = document.createElement("td");
+            speciality_idTd.append(group.speciality_id);
+            tr.append(speciality_idTd);
+
+            return tr;
+        }
+        getGroups();
+    </script>
+
+</body>
+</html>

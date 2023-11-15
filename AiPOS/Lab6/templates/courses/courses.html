@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab6 - Курсы</title>
+</head>
+<body>
+<a href="/">Назад</a>
+<h1>Курсы</h1>
+<span>Данный раздел представлен для работы с курсами.</span>
+<ul>
+    <li><a href="/courses/create">Создать</a></li>
+    <li><a href="/courses/delete">Удалить</a></li>
+    <li><a href="/courses/update">Изменить</a></li>
+</ul>
+<div>
+    <h2>Список имеющихся курсов</h2>
+    <table id="tableCourse">
+        <thead><th>Id</th> <th>Title</th><th>Stage</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+<script>
+        async function getUsers() {
+            const response = await fetch("/get_courses", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const courses = await response.json();
+                const rows = document.querySelector("tbody");
+                courses.forEach(course => rows.append(row(course)));
+            }
+        }
+        function row(course) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", course.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(course.id);
+            tr.append(idTd);
+
+            const titleTd = document.createElement("td");
+            titleTd.append(course.title);
+            tr.append(titleTd);
+
+            const stageTd = document.createElement("td");
+            stageTd.append(course.stage);
+            tr.append(stageTd);
+
+            return tr;
+        }
+        getUsers();
+    </script>
+
+</body>
+</html>

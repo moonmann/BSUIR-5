@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/specialities">Назад</a>
+<h2>Форма ввода</h2>
+<form >
+    <p>
+        <label>Номер специальности</label>
+        <input id="speciality_id" type="number" />
+    </p>
+    <button id="deleteBtn">Удалить</button>
+</form>
+<script>
+        async function deleteSpecialities(Id) {
+
+            const response = await fetch("/specialities/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteBtn").addEventListener("click", async () => {
+            const id = document.getElementById("speciality_id").value;
+            await deleteSpecialities(id);
+        });
+        </script>
+
+</body>
+</html>

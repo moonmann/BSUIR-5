@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/courses">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        Номер курса:<br>
+        <label>
+            <input id="course_id" />
+        </label>
+    </p>
+    <p>
+        Название курса:<br>
+        <label>
+            <input id="course_name" />
+        </label>
+    </p>
+    <p>
+        Год обучения:<br>
+        <label>
+            <input id="course_year" type="number" />
+        </label>
+    </p>
+        <button id="saveBtn" >Отправить</button>
+    </form>
+<script>
+     async function updateCourse(Id, Name, Year) {
+
+            const response = await fetch("/courses/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id,
+                    name : Name,
+                    year : Year
+                })
+            });
+            if (response.ok === true) {
+                const course = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const id = document.getElementById("course_id").value;
+            const name = document.getElementById("course_name").value;
+            const year = document.getElementById("course_year").value;
+            await updateCourse(id, name, year);
+        });
+</script>
+
+</body>
+</html>

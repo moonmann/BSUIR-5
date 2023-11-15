@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/specialities">Назад</a>
+    <h2>Форма ввода</h2>
+    <form>
+        <p>
+            Название специальности:<br>
+            <label>
+                <input id="speciality_name" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input id="specialityNumber" type="number" />
+            </label>
+        </p>
+        <p>
+            Номер курса:<br>
+            <label>
+                <input id="course_id" type="number" />
+            </label>
+        </p>
+        <button id="saveBtn" >Отправить</button>
+    </form>
+    <script>
+     async function createSpeciality(Name, Number, Course_id) {
+
+            const response = await fetch("/specialities/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name : Name,
+                    specialityNumber : Number,
+                    course_id : Course_id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const speciality_name = document.getElementById("speciality_name").value;
+            const specialityNumber = document.getElementById("specialityNumber").value;
+            const course_id = document.getElementById("course_id").value;
+            await createSpeciality(speciality_name, specialityNumber, course_id);
+        });
+</script>
+
+</body>
+</html>

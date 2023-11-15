@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/groups">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        <label>Индификатор группы(id):</label>
+        <input id="group_id" type="number"/>
+    </p>
+    <p>
+        <label>Новый номер группы:</label>
+        <input id="new_number" type="number"/>
+    </p>
+    <p>
+        <label>Id специальности:</label>
+        <input id="speciality_id" type="number" />
+    </p>
+        <button id="saveBtn" >Отправить</button>
+</form>
+<script>
+     async function updateGroup(Group_id, New_number, Speciality_number) {
+
+            const response = await fetch("/groups/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    group_id: Group_id,
+                    new_number : New_number,
+                    speciality_id : Speciality_number
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const group_id = document.getElementById("group_id").value;
+            const new_number = document.getElementById("new_number").value;
+            const speciality_id = document.getElementById("speciality_id").value;
+            await updateGroup(group_id, new_number, speciality_id);
+        });
+</script>
+
+</body>
+</html>

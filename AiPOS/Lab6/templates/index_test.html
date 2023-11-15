@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h2>Список имеющихся курсов</h2>
+<table id="courseTable">
+    <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Stage</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<h2>Форма добавления курса</h2>
+<form>
+        <p>
+            Название курса:<br>
+            <label>
+                <input id="course_name" />
+            </label>
+        </p>
+        <p>
+            Год обучения:<br>
+            <label>
+                <input id="course_year" type="number" />
+            </label>
+        </p>
+        <button id="saveCourseBtn" >Отправить</button>
+    </form>
+<script>
+
+    async function getCourse() {
+            const response = await fetch("/get_courses", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const courses = await response.json();
+                courses.forEach(course => createCourse(course));
+            }
+        }
+    function createCourse(course) {
+        var body = document.getElementById('courseTable').getElementsByTagName('tbody')[0];
+        var newElement = body.insertRow(body.rows.length);
+        var cell1 = newElement.insertCell(0);
+        var cell2 = newElement.insertCell(1);
+        var cell3 = newElement.insertCell(2);
+        cell1.innerHTML = course.id;
+        cell2.innerHTML = course.title;
+        cell3.innerHTML = course.stage;
+    }
+
+    async function createNewCourse(Name, Year) {
+
+            const response = await fetch("/courses/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name : Name,
+                    year : Year
+                })
+            });
+            if (response.ok === true) {
+                const course = await response.json();
+                createCourse(course);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveCourseBtn").addEventListener("click", async () => {
+            const name = document.getElementById("course_name").value;
+            const year = document.getElementById("course_year").value;
+            await createNewCourse(name, year);
+        });
+
+    getCourse();
+</script>
+
+<h2>Форма удаления курса</h2>
+<form>
+    <p>
+        <label>Номер курса</label>
+        <input id="course_id" type="number" />
+    </p>
+    <button id="deleteCourseBtn">Удалить</button>
+</form>
+<script>
+    
+    function deleteTableCourse(course) {
+        var body = document.getElementById('courseTable').getElementsByTagName('tbody')[0];
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+            if (curentId === course.id) {
+                body.deleteRow(i);
+                break;
+            }
+        }
+    }
+    async function deleteCourse(Id) {
+
+            const response = await fetch("/courses/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id
+                })
+            });
+            if (response.ok === true) {
+                const course = await response.json();
+                deleteTableCourse(course);
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteCourseBtn").addEventListener("click", async () => {
+            const id = document.getElementById("course_id").value;
+            await deleteCourse(id);
+        });
+</script>
+
+<h2>Форма изменения курса</h2>
+<form>
+    <p>
+        Номер курса:<br>
+        <label>
+            <input id="update_course_id" />
+        </label>
+    </p>
+    <p>
+        Название курса:<br>
+        <label>
+            <input id="update_course_name" />
+        </label>
+    </p>
+    <p>
+        Год обучения:<br>
+        <label>
+            <input id="update_course_year" type="number" />
+        </label>
+    </p>
+        <button id="update_saveCourseBtn" >Отправить</button>
+    </form>
+<script>
+    
+    function updateTableCourse(course) {
+        var body = document.getElementById('courseTable').getElementsByTagName('tbody')[0];
+
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+
+            if (curentId === course.id) {
+                curentRow.cells[0].innerHTML = course.id;
+                curentRow.cells[1].innerHTML = course.title;
+                curentRow.cells[2].innerHTML = course.stage;
+                break;
+            }
+        }
+    }
+     async function updateCourse(Id, Name, Year) {
+
+            const response = await fetch("/courses/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id,
+                    name : Name,
+                    year : Year
+                })
+            });
+            if (response.ok === true) {
+                const course = await response.json();
+                updateTableCourse(course);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("update_saveCourseBtn").addEventListener("click", async () => {
+            const id = document.getElementById("update_course_id").value;
+            const name = document.getElementById("update_course_name").value;
+            const year = document.getElementById("update_course_year").value;
+            await updateCourse(id, name, year);
+        });
+</script>
+
+
+<h2>Список имеющихся групп</h2>
+<table id="groupTable">
+        <thead><th>Id</th> <th>Number</th><th>Speciality id</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+<h2>Форма добавления группы</h2>
+<form>
+        <p>
+            Номер группы:<br>
+            <label>
+                <input id="group_number" type="number" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input id="speciality_id" type="number" />
+            </label>
+        </p>
+        <button id="saveGroupBtn" >Отправить</button>
+    </form>
+<script>
+
+    async function getGroup() {
+            const response = await fetch("/get_groups", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const groups = await response.json();
+                groups.forEach(group => createGroup(group));
+            }
+        }
+    function createGroup(group) {
+        var body = document.getElementById('groupTable').getElementsByTagName('tbody')[0];
+        var newElement = body.insertRow(body.rows.length);
+        var cell1 = newElement.insertCell(0);
+        var cell2 = newElement.insertCell(1);
+        var cell3 = newElement.insertCell(2);
+        cell1.innerHTML = group.id;
+        cell2.innerHTML = group.groupNumber;
+        cell3.innerHTML = group.speciality_id;
+    }
+     async function createNewGroup(Number, Speciality_id) {
+
+            const response = await fetch("/groups/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    group_number : Number,
+                    speciality_id : Speciality_id
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+                createGroup(group);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveGroupBtn").addEventListener("click", async () => {
+            const group_number = document.getElementById("group_number").value;
+            const speciality_id = document.getElementById("speciality_id").value;
+            await createNewGroup(group_number, speciality_id);
+        });
+
+    getGroup();
+</script>
+
+<h2>Форма удаления группы</h2>
+<form>
+    <p>
+        <label>Id группы</label>
+        <input id="groups_id" type="number" />
+    </p>
+    <button id="deleteGroupBtn">Удалить</button>
+</form>
+<script>
+    
+    function deleteGroupTable(group) {
+        var body = document.getElementById('groupTable').getElementsByTagName('tbody')[0];
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+            if (curentId === group.id) {
+                body.deleteRow(i);
+                break;
+            }
+        }
+    }
+        async function deleteGroup(Id) {
+
+            const response = await fetch("/groups/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+                deleteGroupTable(group);
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteGroupBtn").addEventListener("click", async () => {
+            const id = document.getElementById("groups_id").value;
+            await deleteGroup(id);
+        });
+        </script>
+
+<h2>Форма изменения группы</h2>
+<form>
+    <p>
+        <label>Индификатор группы(id):</label>
+        <input id="update_group_id" type="number"/>
+    </p>
+    <p>
+        <label>Новый номер группы:</label>
+        <input id="new_number" type="number"/>
+    </p>
+    <p>
+        <label>Id специальности:</label>
+        <input id="update_group_speciality_id" type="number" />
+    </p>
+        <button id="saveUpdateGroupBtn" >Отправить</button>
+</form>
+<script>
+    
+    function updateTableGroup(group) {
+        var body = document.getElementById('groupTable').getElementsByTagName('tbody')[0];
+
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+
+            if (curentId === group.id) {
+                curentRow.cells[0].innerHTML = group.id;
+                curentRow.cells[1].innerHTML = group.groupNumber;
+                curentRow.cells[2].innerHTML = group.speciality_id;
+                break;
+            }
+        }
+    }
+     async function updateGroup(Group_id, New_number, Speciality_number) {
+
+            const response = await fetch("/groups/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    group_id: Group_id,
+                    new_number : New_number,
+                    speciality_id : Speciality_number
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+                updateTableGroup(group);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveUpdateGroupBtn").addEventListener("click", async () => {
+            const update_group_id = document.getElementById("update_group_id").value;
+            const new_number = document.getElementById("new_number").value;
+            const update_group_speciality_id = document.getElementById("update_group_speciality_id").value;
+            await updateGroup(update_group_id, new_number, update_group_speciality_id);
+        });
+</script>
+
+
+<h2>Список имеющихся специальностей</h2>
+<table id="tableSpeciality">
+        <thead><th>Id</th> <th>Speciality number</th><th>Name</th><th>Course id</th></thead>
+        <tbody>
+        </tbody>
+</table>
+
+<h2>Форма добавления специальности</h2>
+<form>
+        <p>
+            Название специальности:<br>
+            <label>
+                <input id="speciality_name" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input id="specialityNumber" type="number" />
+            </label>
+        </p>
+        <p>
+            Id курса:<br>
+            <label>
+                <input id="speciality_course_id" type="number" />
+            </label>
+        </p>
+        <button id="saveSpecialitiesBtn" >Отправить</button>
+    </form>
+<script>
+    async function getSpeciality() {
+            const response = await fetch("/get_specialities", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const specialities = await response.json();
+                specialities.forEach(speciality => createSpeciality(speciality));
+            }
+        }
+    function createSpeciality(speciality) {
+        var body = document.getElementById('tableSpeciality').getElementsByTagName('tbody')[0];
+        var newElement = body.insertRow(body.rows.length);
+        var cell1 = newElement.insertCell(0);
+        var cell2 = newElement.insertCell(1);
+        var cell3 = newElement.insertCell(2);
+        var cell4 = newElement.insertCell(3);
+        cell1.innerHTML = speciality.id;
+        cell2.innerHTML = speciality.specialityNumber;
+        cell3.innerHTML = speciality.name;
+        cell4.innerHTML = speciality.course_id;
+    }
+     async function createNewSpeciality(Name, Number, Course_id) {
+
+            const response = await fetch("/specialities/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name : Name,
+                    specialityNumber : Number,
+                    course_id : Course_id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+                createSpeciality(speciality);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveSpecialitiesBtn").addEventListener("click", async () => {
+            const speciality_name = document.getElementById("speciality_name").value;
+            const specialityNumber = document.getElementById("specialityNumber").value;
+            const course_id = document.getElementById("speciality_course_id").value;
+            await createNewSpeciality(speciality_name, specialityNumber, course_id);
+        });
+    getSpeciality();
+</script>
+
+<h2>Форма удаления специальности</h2>
+<form >
+    <p>
+        <label>Номер специальности</label>
+        <input id="delete_speciality_id" type="number" />
+    </p>
+    <button id="deleteSpecialityBtn">Удалить</button>
+</form>
+<script>
+    function deleteSpecialityTable(speciality) {
+        var body = document.getElementById('tableSpeciality').getElementsByTagName('tbody')[0];
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+            if (curentId === speciality.id) {
+                body.deleteRow(i);
+                break;
+            }
+        }
+    }
+        async function deleteSpecialities(Id) {
+
+            const response = await fetch("/specialities/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: Id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+                deleteSpecialityTable(speciality);
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteSpecialityBtn").addEventListener("click", async () => {
+            const id = document.getElementById("delete_speciality_id").value;
+            await deleteSpecialities(id);
+        });
+        </script>
+
+<h2>Форма изменения специальности</h2>
+<form>
+    <p>
+        <label>Id специальности:</label>
+        <input id="update_speciality_id" type="number"/>
+    </p>
+    <p>
+        <label>Новое название:</label>
+        <input id="update_new_name" />
+    </p>
+    <p>
+        <label>Номер специальности:</label>
+        <input id="update_speciality_number" type="number" />
+    </p>
+    <p>
+        <label>Id курса:</label>
+        <input id="update_speciality_course_id" type="number" />
+    </p>
+        <button id="saveUpdateSpecialityBtn" >Отправить</button>
+</form>
+<script>
+    function updateSpecialityTable(speciality) {
+        var body = document.getElementById('tableSpeciality').getElementsByTagName('tbody')[0];
+
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[0].textContent;
+
+            if (curentId === speciality.id) {
+                curentRow.cells[0].innerHTML = speciality.id;
+                curentRow.cells[1].innerHTML = speciality.specialityNumber;
+                curentRow.cells[2].innerHTML = speciality.name;
+                curentRow.cells[3].innerHTML = speciality.course_id;
+                break;
+            }
+        }
+    }
+     async function updateSpeciality(Speciality_id, New_name, Speciality_number, Course_id) {
+
+            const response = await fetch("/specialities/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    speciality_id: Speciality_id,
+                    new_name : New_name,
+                    speciality_number : Speciality_number,
+                    course_id : Course_id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+                updateSpecialityTable(speciality);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveUpdateSpecialityBtn").addEventListener("click", async () => {
+            const speciality_id = document.getElementById("update_speciality_id").value;
+            const new_name = document.getElementById("update_new_name").value;
+            const speciality_number = document.getElementById("update_speciality_number").value;
+            const course_id = document.getElementById("update_speciality_course_id").value;
+            await updateSpeciality(speciality_id, new_name, speciality_number, course_id);
+        });
+</script>
+
+
+<h2>Список имеющихся студентов</h2>
+<table id="tableStudent">
+        <thead><th>Id</th> <th>First name</th><th>Last name</th><th>Number</th><th>Gpa</th><th>Group id</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+<h2>Форма добавления студента</h2>
+<form>
+        <p>
+            Имя:<br>
+                <input id="f_name" />
+        </p>
+        <p>
+            Фамилия:<br>
+                <input id="l_name" />
+        </p>
+        <p>
+            Номер студента:<br>
+                <input id="number" type="number" />
+        </p>
+        <p>
+            Средний балл:<br>
+                <input id="gpa" type="number" step="0.1" />
+        </p>
+        <p>
+            Номер группы:<br>
+                <input id="student_group_number" type="number" />
+        </p>
+        <button id="saveStudentBtn" >Отправить</button>
+    </form>
+<script>
+
+    async function getStudents() {
+            const response = await fetch("/get_students", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const students = await response.json();
+                students.forEach(student => createStudent(student));
+            }
+        }
+    function createStudent(student) {
+        var body = document.getElementById('tableStudent').getElementsByTagName('tbody')[0];
+        var newElement = body.insertRow(body.rows.length);
+        var cell1 = newElement.insertCell(0);
+        var cell2 = newElement.insertCell(1);
+        var cell3 = newElement.insertCell(2);
+        var cell4 = newElement.insertCell(3);
+        var cell5 = newElement.insertCell(4);
+        var cell6 = newElement.insertCell(5);
+        cell1.innerHTML = student.id;
+        cell2.innerHTML = student.firstName;
+        cell3.innerHTML = student.lastName;
+        cell4.innerHTML = student.studentNumber;
+        cell5.innerHTML = student.gpa;
+        cell6.innerHTML = student.group_id;
+    }
+     async function createNewStudent(F_name, L_name, Number, Gpa, Group_number) {
+
+            const response = await fetch("/students/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName : F_name,
+                    lastName : L_name,
+                    studentNumber : Number,
+                    gpa : Gpa,
+                    group_number : Group_number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+                createStudent(student);
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveStudentBtn").addEventListener("click", async () => {
+            const f_name = document.getElementById("f_name").value;
+            const l_name = document.getElementById("l_name").value;
+            const number = document.getElementById("number").value;
+            const gpa = document.getElementById("gpa").value;
+            const group_number = document.getElementById("student_group_number").value;
+            await createNewStudent(f_name, l_name, number, gpa, group_number);
+        });
+    getStudents();
+</script>
+
+<h2>Форма удаления студента</h2>
+<form>
+    <p>
+        <label>Номер студента</label>
+        <input id="student_number" type="number" />
+    </p>
+    <button id="deleteStudentBtn">Удалить</button>
+</form>
+<script>
+    function deleteStudentTable(student) {
+        var body = document.getElementById('tableStudent').getElementsByTagName('tbody')[0];
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[3].textContent;
+            if (curentId === student.studentNumber) {
+                body.deleteRow(i);
+                break;
+            }
+        }
+    }
+        async function deleteStudent(Number) {
+
+            const response = await fetch("/students/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    number: Number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+                deleteStudentTable(student);
+
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteStudentBtn").addEventListener("click", async () => {
+            const student_number = document.getElementById("student_number").value;
+            await deleteStudent(student_number);
+        });
+        </script>
+
+<h2>Форма изменения студента</h2>
+<form>
+    <p>
+        <label>Номер студента:</label>
+        <input id="update_student_number" type="number"/>
+    </p>
+    <p>
+        <label>Новое имя:</label>
+        <input id="update_f_name"/>
+    </p>
+    <p>
+        <label>Новая фамилия:</label>
+        <input id="update_l_name" />
+    </p>
+    <p>
+        <label>Средний балл:</label>
+        <input id="update_gpa" type="number" step="0.1"/>
+    </p>
+    <p>
+        <label>Номер группы:</label>
+        <input id="update_group_number" type="number" />
+    </p>
+        <button id="saveUpdateBtn" >Отправить</button>
+</form>
+<script>
+
+    function updateStudentTable(speciality) {
+        var body = document.getElementById('tableStudent').getElementsByTagName('tbody')[0];
+
+        for (var i = 0; i < body.rows.length; i++) {
+            var curentRow = body.rows[i];
+            var curentId = curentRow.cells[3].textContent;
+
+            if (curentId === student.studentNumber) {
+                curentRow.cells[0].innerHTML = student.id;
+                curentRow.cells[1].innerHTML = student.firstName;
+                curentRow.cells[2].innerHTML = student.lastName;
+                curentRow.cells[3].innerHTML = student.studentNumber;
+                curentRow.cells[4].innerHTML = student.gpa;
+                curentRow.cells[5].innerHTML = student.group_id;
+                break;
+            }
+        }
+    }
+     async function updateStudent(F_name, L_name, Student_number, Gpa, Group_number) {
+
+            const response = await fetch("/students/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName : F_name,
+                    lastName : L_name,
+                    studentNumber : Student_number,
+                    gpa : Gpa,
+                    group_number : Group_number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveUpdateBtn").addEventListener("click", async () => {
+            const f_name = document.getElementById("update_f_name").value;
+            const l_name = document.getElementById("update_l_name").value;
+            const student_number = document.getElementById("update_student_number").value;
+            const gpa = document.getElementById("update_gpa").value;
+            const group_number = document.getElementById("update_group_number").value;
+            await updateStudent(f_name, l_name, student_number, gpa, group_number);
+        });
+</script>
+
+</body>
+</html>

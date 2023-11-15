@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/students">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        <label>Номер студента:</label>
+        <input id="student_number" type="number"/>
+    </p>
+    <p>
+        <label>Новое имя:</label>
+        <input id="f_name"/>
+    </p>
+    <p>
+        <label>Новая фамилия:</label>
+        <input id="l_name" />
+    </p>
+    <p>
+        <label>Средний балл:</label>
+        <input id="gpa" type="number" step="0.1"/>
+    </p>
+    <p>
+        <label>Номер группы:</label>
+        <input id="group_number" type="number" />
+    </p>
+        <button id="saveBtn" >Отправить</button>
+</form>
+<script>
+     async function updateStudent(F_name, L_name, Student_number, Gpa, Group_number) {
+
+            const response = await fetch("/students/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName : F_name,
+                    lastName : L_name,
+                    studentNumber : Student_number,
+                    gpa : Gpa,
+                    group_number : Group_number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const f_name = document.getElementById("f_name").value;
+            const l_name = document.getElementById("l_name").value;
+            const student_number = document.getElementById("student_number").value;
+            const gpa = document.getElementById("gpa").value;
+            const group_number = document.getElementById("group_number").value;
+            await updateStudent(f_name, l_name, student_number, gpa, group_number);
+        });
+</script>
+
+</body>
+</html>

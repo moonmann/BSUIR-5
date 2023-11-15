@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/students">Назад</a>
+    <h2>Форма ввода</h2>
+    <form>
+        <p>
+            Имя:<br>
+                <input id="f_name" />
+        </p>
+        <p>
+            Фамилия:<br>
+                <input id="l_name" />
+        </p>
+        <p>
+            Номер студента:<br>
+                <input id="number" type="number" />
+        </p>
+        <p>
+            Средний балл:<br>
+                <input id="gpa" type="number" step="0.1" />
+        </p>
+        <p>
+            Номер группы:<br>
+                <input id="group_number" type="number" />
+        </p>
+        <button id="saveBtn" >Отправить</button>
+    </form>
+<script>
+     async function createStudent(F_name, L_name, Number, Gpa, Group_number) {
+
+            const response = await fetch("/students/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName : F_name,
+                    lastName : L_name,
+                    studentNumber : Number,
+                    gpa : Gpa,
+                    group_number : Group_number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const f_name = document.getElementById("f_name").value;
+            const l_name = document.getElementById("l_name").value;
+            const number = document.getElementById("number").value;
+            const gpa = document.getElementById("gpa").value;
+            const group_number = document.getElementById("group_number").value;
+            await createStudent(f_name, l_name, number, gpa, group_number);
+        });
+</script>
+
+</body>
+</html>

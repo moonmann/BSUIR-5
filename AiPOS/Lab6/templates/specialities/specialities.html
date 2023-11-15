@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/">Назад</a>
+<h1>Специальности</h1>
+<span>Данный раздел представлен для работы со специальностями.</span>
+<ul>
+    <li><a href="/specialities/create">Создать</a></li>
+    <li><a href="/specialities/delete">Удалить</a></li>
+    <li><a href="/specialities/update">Изменить</a></li>
+</ul>
+<div>
+    <h2>Список имеющихся специальностей</h2>
+    <table id="tablespeciality">
+        <thead><th>Id</th> <th>Speciality number</th><th>Name</th><th>Course id</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+<script>
+        async function getSpetialities() {
+            const response = await fetch("/get_specialities", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const specialities = await response.json();
+                const rows = document.querySelector("tbody");
+                specialities.forEach(speciality => rows.append(row(speciality)));
+            }
+        }
+        function row(speciality) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", speciality.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(speciality.id);
+            tr.append(idTd);
+
+            const specialityNumberTd = document.createElement("td");
+            specialityNumberTd.append(speciality.specialityNumber);
+            tr.append(specialityNumberTd);
+
+            const nameTd = document.createElement("td");
+            nameTd.append(speciality.name);
+            tr.append(nameTd);
+
+            const course_idTd = document.createElement("td");
+            course_idTd.append(speciality.course_id);
+            tr.append(course_idTd);
+
+            return tr;
+        }
+        getSpetialities();
+    </script>
+</body>
+</html>

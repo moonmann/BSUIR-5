@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/">Назад</a>
+<h1>Студенты</h1>
+<span>Данный раздел представлен для работы со студентами.</span>
+<ul>
+    <li><a href="/students/create">Создать</a></li>
+    <li><a href="/students/delete">Удалить</a></li>
+    <li><a href="/students/update">Изменить</a></li>
+</ul>
+<div>
+    <h2>Список имеющихся студентов</h2>
+    <table id="tablestudent">
+        <thead><th>Id</th> <th>First name</th><th>Last name</th><th>Number</th><th>Gpa</th><th>Group id</th></thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</div>
+<script>
+        async function getStudents() {
+            const response = await fetch("/get_students", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const students = await response.json();
+                const rows = document.querySelector("tbody");
+                students.forEach(student => rows.append(row(student)));
+            }
+        }
+        function row(student) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", student.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(student.id);
+            tr.append(idTd);
+
+            const firstNameTd = document.createElement("td");
+            firstNameTd.append(student.firstName);
+            tr.append(firstNameTd);
+
+            const lastNameTd = document.createElement("td");
+            lastNameTd.append(student.lastName);
+            tr.append(lastNameTd);
+
+            const studentNumberTd = document.createElement("td");
+            studentNumberTd.append(student.studentNumber);
+            tr.append(studentNumberTd);
+
+            const gpaTd = document.createElement("td");
+            gpaTd.append(student.gpa);
+            tr.append(gpaTd);
+
+            const group_idTd = document.createElement("td");
+            group_idTd.append(student.group_id);
+            tr.append(group_idTd);
+
+            return tr;
+        }
+        getStudents();
+    </script>
+    
+</body>
+</html>

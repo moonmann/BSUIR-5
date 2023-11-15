@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/students">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        <label>Номер студента</label>
+        <input id="student_number" type="number" />
+    </p>
+    <button id="deleteBtn">Удалить</button>
+</form>
+<script>
+        async function deleteStudent(Number) {
+
+            const response = await fetch("/students/delete", {
+                method: "DELETE",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    number: Number
+                })
+            });
+            if (response.ok === true) {
+                const student = await response.json();
+
+            } else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        document.getElementById("deleteBtn").addEventListener("click", async () => {
+            const student_number = document.getElementById("student_number").value;
+            await deleteStudent(student_number);
+        });
+        </script>
+
+</body>
+</html>

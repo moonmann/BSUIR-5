@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href="/courses">Назад</a>
+    <h2>Форма ввода</h2>
+    <form>
+        <p>
+            Название курса:<br>
+            <label>
+                <input id="course_name" />
+            </label>
+        </p>
+        <p>
+            Год обучения:<br>
+            <label>
+                <input id="course_year" type="number" />
+            </label>
+        </p>
+        <button id="saveBtn" >Отправить</button>
+    </form>
+
+<script>
+     async function createCourse(Name, Year) {
+
+            const response = await fetch("/courses/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name : Name,
+                    year : Year
+                })
+            });
+            if (response.ok === true) {
+                const Course = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const name = document.getElementById("course_name").value;
+            const year = document.getElementById("course_year").value;
+            await createCourse(name, year);
+        });
+</script>
+
+</body>
+
+</html>

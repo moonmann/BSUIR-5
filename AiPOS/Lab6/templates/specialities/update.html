@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/specialities">Назад</a>
+<h2>Форма ввода</h2>
+<form>
+    <p>
+        <label>Номер специальности:</label>
+        <input id="speciality_id" type="number"/>
+    </p>
+    <p>
+        <label>Новое название:</label>
+        <input id="new_name" />
+    </p>
+    <p>
+        <label>Номер специальности:</label>
+        <input id="speciality_number" type="number" />
+    </p>
+    <p>
+        <label>Номер курса(id):</label>
+        <input id="course_id" type="number" />
+    </p>
+        <button id="saveBtn" >Отправить</button>
+</form>
+<script>
+     async function updateSpeciality(Speciality_id, New_name, Speciality_number, Course_id) {
+
+            const response = await fetch("/specialities/update", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    speciality_id: Speciality_id,
+                    new_name : New_name,
+                    speciality_number : Speciality_number,
+                    course_id : Course_id
+                })
+            });
+            if (response.ok === true) {
+                const speciality = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const speciality_id = document.getElementById("speciality_id").value;
+            const new_name = document.getElementById("new_name").value;
+            const speciality_number = document.getElementById("speciality_number").value;
+            const course_id = document.getElementById("course_id").value;
+            await updateSpeciality(speciality_id, new_name, speciality_number, course_id);
+        });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/groups">Назад</a>
+    <h2>Форма ввода</h2>
+    <form>
+        <p>
+            Номер группы:<br>
+            <label>
+                <input id="group_number" type="number" />
+            </label>
+        </p>
+        <p>
+            Индификатор специальности:<br>
+            <label>
+                <input id="speciality_id" type="number" />
+            </label>
+        </p>
+        <button id="saveBtn" >Отправить</button>
+    </form>
+<script>
+     async function createGroup(Number, Speciality_id) {
+
+            const response = await fetch("/groups/create", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    group_number : Number,
+                    speciality_id : Speciality_id
+                })
+            });
+            if (response.ok === true) {
+                const group = await response.json();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+     document.getElementById("saveBtn").addEventListener("click", async () => {
+            const group_number = document.getElementById("group_number").value;
+            const speciality_id = document.getElementById("speciality_id").value;
+            await createGroup(group_number, speciality_id);
+        });
+</script>
+
+</body>
+</html>
